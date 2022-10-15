@@ -1,22 +1,20 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView } from 'react-native';
-import Task from '../components/Task';
+import { KeyboardAvoidingView, StyleSheet,
+Text, View, TextInput, TouchableOpacity,
+Keyboard, ScrollView } from 'react-native';
+import List from '../components/List'
 
-export default function BoardPage() {
-  const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
 
-  const handleAddTask = () => {
+export default function BoardView() {
+  const [list, setList ] = useState();
+  const [listItems, setListItems] = useState([]);
+
+  const handleAddList = () => {
     Keyboard.dismiss();
-    setTaskItems([...taskItems, task])
-    setTask(null);
+    setListItems([...listItems, list])
+    setList(null);
   }
 
-  const completeTask = (index) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy)
-  }
 
  /**
   *  redirect to board => on click redirect to the borad 
@@ -24,25 +22,23 @@ export default function BoardPage() {
  
   return (
     <View style={styles.container}>
-      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
-      <ScrollView
-        contentContainerStyle={{
+        <ScrollView
+            contentContainerStyle={{
           flexGrow: 1
-        }}
-        keyboardShouldPersistTaps='handled'
-      >
+         }}
+            keyboardShouldPersistTaps='handled'
+         >
 
-      {/* Today's Tasks */}
+      {/* My Boards */}
       <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Today's tasks</Text>
         <View style={styles.items}>
           {/* This is where the tasks will go! */}
           {
-            taskItems.map((item, index) => {
+            listItems.map((item, index) => {
               return (
-                <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                  <Task text={item} /> 
-                </TouchableOpacity>
+               
+                  <List text={item} /> 
+
               )
             })
           }
@@ -51,18 +47,19 @@ export default function BoardPage() {
         
       </ScrollView>
 
+     
       {/* Write a task */}
       {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
       <KeyboardAvoidingView 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
       >
-        <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
-        <TouchableOpacity onPress={() => handleAddTask()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
+       <TextInput style={styles.input} placeholder={'List Name'} value={list} onChangeText={text => setList(text)} />
+        <TouchableOpacity onPress={() => handleAddList()}>
+            <View style={styles.addWrapper}>
+                <Text style={styles.addText}>+</Text>
+            </View>
+            </TouchableOpacity>
       </KeyboardAvoidingView>
       
     </View>

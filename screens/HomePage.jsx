@@ -1,158 +1,117 @@
-import { View, Text, StyleSheet,FlatList, StatusBar, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard} from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
-import Note from '../components/Note';
-import NoteInputModal from '../components/NoteInputModal';
-import NotFound from '../components/NotFound';
-import RoundIconBtn from '../components/RoundIconBtn';
-import SearchBar from '../components/SearchBar';
-import { useNotes } from '../context/NoteProvider';
-import colors from '../misc/colors';
+import React, {useState} from 'react';
+import { KeyboardAvoidingView, StyleSheet,
+Text, View, TextInput, TouchableOpacity,
+Keyboard, ScrollView } from 'react-native';
+import Task from '../components/Task';
+
+export default function BoardPage({navigation}) {
+  const [task, setTask ] = useState();
+  const [taskItems, setTaskItems] = useState([]);
+
+  const handleAddTask = () => {
+    Keyboard.dismiss();
+    setTaskItems([...taskItems, task])
+    setTask(null);
+  }
 
 
-const HomePage = ({ navigation }) => {
-    
-    const [modalVisible, setModalVisible] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [resultNotFound, setResultNotFound] = useState(false);
-    
-    const { notes, setNotes, findNotes } = useNotes();
-    
-    
-    const handleOnSubmit = async (title, desc) => {
-        const note = { id: Date.now(), title, desc, time: Date.now() };
-        const updatedNotes = [...notes, note];
-        setNotes(updatedNotes);
-        await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
-    };
-    
-    const openNote = note => {
-        navigation.navigate('NoteDetail', { note }); //navigation to created board 
-    };
-    
-    const handleOnSearchInput = async text => {
-        setSearchQuery(text);
-        if (!text.trim()) {
-          setSearchQuery('');
-          setResultNotFound(false);
-          return await findNotes();
-        }
-        const filteredNotes = notes.filter(note => {
-          if (note.title.toLowerCase().includes(text.toLowerCase())) {
-            return note;
+  const openBoard = task => {
+    navigation.navigate('BoardDetail', { task }); //navigation to created board 
+};
+
+ /**
+  *  redirect to board => on click redirect to the borad 
+  */
+ 
+  return (
+    <View style={styles.container}>
+      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1
+        }}
+        keyboardShouldPersistTaps='handled'
+      >
+
+      {/* My Boards */}
+      <View style={styles.tasksWrapper}>
+        <Text style={styles.sectionTitle}>Boards</Text>
+        <View style={styles.items}>
+          {/* This is where the tasks will go! */}
+          {
+            taskItems.map((item, index) => {
+              return (
+                <TouchableOpacity key={index}  onPress={() => openBoard(index)}>
+                  <Task text={item} /> 
+                </TouchableOpacity>
+              )
+            })
           }
-    });
-    
-    if (filteredNotes.length) {
-          setNotes([...filteredNotes]);
-        } else {
-          setResultNotFound(true);
-        }
-    };
-    
-    const handleOnClear = async () => {
-        setSearchQuery('');
-        setResultNotFound(false);
-        await findNotes();
-    };
-    
-    return (
-        <>
-          <StatusBar barStyle='dark-content' backgroundColor={colors.LIGHT} />
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-                <SearchBar
-                  value={searchQuery}
-                  onChangeText={handleOnSearchInput}
-                  containerStyle={{ marginVertical: 15 }}
-                  onClear={handleOnClear}
-                />
+        </View>
+      </View>
+        
+      </ScrollView>
 
-              {resultNotFound ? (
-                <NotFound />
-              ) : (
-                <FlatList
-                  numColumns={2}
-                  columnWrapperStyle={{
-                    justifyContent: 'space-between',
-                    marginBottom: 15,
-                  }}
-                  keyExtractor={item => item.id.toString()}
-                  renderItem={({ item }) => (
-                    <Note onPress={() => openNote(item)} item={item} />
-                  )}
-                />
-              )}
-    
-                <View
-                  style={[
-                    StyleSheet.absoluteFillObject,
-                    styles.emptyHeaderContainer,
-                  ]}
-                >
-                  <Text style={styles.emptyHeader}>Add Notes</Text>
-                </View>
-
-            </View>
-          </TouchableWithoutFeedback>
-          <RoundIconBtn
-            onPress={() => setModalVisible(true)}
-            antIconName='plus'
-            style={styles.addBtn}
-          />
-          <NoteInputModal
-            visible={modalVisible}
-            onClose={() => setModalVisible(false)}
-            onSubmit={handleOnSubmit}
-          />
-        </>
-      );
-    };
+      {/* Write a task */}
+      {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.writeTaskWrapper}
+      >
+        <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
+        <TouchableOpacity onPress={() => handleAddTask()}>
+          <View style={styles.addWrapper}>
+            <Text style={styles.addText}>+</Text>
+          </View>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+      
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#E8EAED',
-    },
-    tasksWrapper: {
-      paddingTop: 80,
-      paddingHorizontal: 20,
-    },
-    sectionTitle: {
-      fontSize: 24,
-      fontWeight: 'bold'
-    },
-    items: {
-      marginTop: 30,
-    },
-    writeTaskWrapper: {
-      position: 'absolute',
-      bottom: 60,
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center'
-    },
-    input: {
-      paddingVertical: 15,
-      paddingHorizontal: 15,
-      backgroundColor: '#FFF',
-      borderRadius: 60,
-      borderColor: '#C0C0C0',
-      borderWidth: 1,
-      width: 250,
-    },
-    addWrapper: {
-      width: 60,
-      height: 60,
-      backgroundColor: '#FFF',
-      borderRadius: 60,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderColor: '#C0C0C0',
-      borderWidth: 1,
-    },
-    addText: {},
-  });
-
-export default HomePage
+  container: {
+    flex: 1,
+    backgroundColor: '#E8EAED',
+  },
+  tasksWrapper: {
+    paddingTop: 80,
+    paddingHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  items: {
+    marginTop: 30,
+  },
+  writeTaskWrapper: {
+    position: 'absolute',
+    bottom: 60,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  input: {
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    backgroundColor: '#FFF',
+    borderRadius: 60,
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+    width: 250,
+  },
+  addWrapper: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#FFF',
+    borderRadius: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+  },
+  addText: {},
+});
