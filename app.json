@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "istab",
+    "slug": "istab",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "istab"
+}
