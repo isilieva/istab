@@ -16,13 +16,7 @@ export default function BoardView() {
   }
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.btn} onPress={() => handleDeleteBoard()}>
-                    <View style={styles.deleteWrapper}>
-                          <Text style={styles.addText}>Delete Board</Text>
-                      </View>
-                  </TouchableOpacity>
-              
+    <View style={styles.container}>   
       {/* My Boards */}
       <View style={styles.tasksWrapper}>
       <ScrollView horizontal='true'> 
@@ -50,7 +44,7 @@ export default function BoardView() {
        <TextInput style={styles.input} placeholder={'List Name'} value={list} onChangeText={text => setList(text)} />
         <TouchableOpacity onPress={() => handleAddList()}>
             <View style={styles.addWrapper}>
-                <Text style={styles.addText}>+</Text>
+            <Text style={styles.addText}>➕</Text>
             </View>
             </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -90,6 +84,7 @@ const styles = StyleSheet.create({
   addWrapper: { // btn add list of board screen 
     width: 60,
     height: 60,
+    backgroundColor: '#FFF',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',

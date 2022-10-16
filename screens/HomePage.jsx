@@ -15,6 +15,10 @@ export default function BoardPage({navigation}) {
     setBoard(null);
   }
 
+  const handleDeleteBoard = (boardItems) => {
+    boardItems.filter((i) => i.id !== list.id);
+  }
+
  /**
   *  redirect to board => on click redirect to the borad 
   */
@@ -31,7 +35,7 @@ export default function BoardPage({navigation}) {
 
       {/* My Boards */}
       <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Boards</Text>
+        <Text style={styles.sectionTitle}>Boards 🧾</Text>
         <View style={styles.items}>
           {/* This is where the boards will go! */}
           {
@@ -54,10 +58,10 @@ export default function BoardPage({navigation}) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
       >
-        <TextInput style={styles.input} placeholder={'Write a task'} value={board} onChangeText={text => setBoard(text)} />
+        <TextInput style={styles.input} placeholder={'Add Board'} value={board} onChangeText={text => setBoard(text)} />
         <TouchableOpacity onPress={() => handleAddBoard()}>
           <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
+            <Text style={styles.addText}>➕</Text>
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -72,12 +76,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#CCA253',
   },
   tasksWrapper: {
-    paddingTop: 80,
     paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'italic'
   },
   items: {
     marginTop: 30,

@@ -32,11 +32,11 @@ export function RegisterScreen() {
             />
 
             <View style={styles.contConnect}>
-                <MyInput label={"Email"} valeur={login} etat={setlogin} />
+                <MyInput label={"Email 💌"} valeur={login} etat={setlogin} />
                 <></>
-                <HideInput label={"Password"} valeur={mdp} secureTextEntry={true} etat={setmdp} />
+                <HideInput label={"Pasword 🔒"} valeur={mdp} secureTextEntry={true} etat={setmdp} />
                 <></>
-                <HideInput label={"Confirm your password"} valeur={mdp2} secureTextEntry={true} etat={setmdp2} />
+                <HideInput label={"Confirm your password 🔒"} valeur={mdp2} secureTextEntry={true} etat={setmdp2} />
                 <></>
                 <MyBout label="Sign Up" click={handleClick} />
 

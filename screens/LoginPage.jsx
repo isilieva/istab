@@ -31,9 +31,9 @@ export function LoginScreen() {
         </View>
           <View style={styles.contConnect}>
           
-              <MyInput label={"Email"} valeur={login} etat={setlogin} />
+              <MyInput label={"Email 💌"} valeur={login} etat={setlogin} />
 
-              <HideInput label={"Pasword"} valeur={mdp} secureTextEntry={true} etat={setmdp} />
+              <HideInput label={"Pasword 🔒"} valeur={mdp} secureTextEntry={true} etat={setmdp} />
 
               <MyBout label="Sign In" click={handleClick} />
 

@@ -32,7 +32,7 @@ const List = (props) => {
               <TextInput style={styles.input} placeholder={'Add Task'} value={card} onChangeText={text => setCard(text)} />
                 <TouchableOpacity onPress={() => handleAddCard()}>
                     <View style={styles.addWrapper}>
-                        <Text style={styles.addText}>+</Text>
+                        <Text style={styles.addText}>➕</Text>
                     </View>
                     </TouchableOpacity>
               </KeyboardAvoidingView>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   item: { // la place ou les cartes ce stoque 
     backgroundColor: '#E6DFB0',
     width:'100%',
-    flexDirection: 'row',
+    flexDirection:'column',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
