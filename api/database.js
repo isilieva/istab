@@ -21,6 +21,42 @@ export function ajoutTache(userId, name) {
 
 }
 
+export function deleteTache(userId, name) {
+    return new Promise((res, rej) => {
+
+        const refDb = ref(database)
+        const refUser = child(refDb, `users/${userId}`)
+        console.log(refUser);
+        get(refUser).then(snap => {
+            let data = snap.val()
+            if (data == "" || data === null) data = []
+            console.log(data);
+            data.delete(name)
+            set(refUser, data);
+            res(true)
+        }).catch(err => rej(err.message))
+    })
+
+}
+
+export function updateTache(userId, name) {
+    return new Promise((res, rej) => {
+
+        const refDb = ref(database)
+        const refUser = child(refDb, `users/${userId}`)
+        console.log(refUser);
+        get(refUser).then(snap => {
+            let data = snap.val()
+            if (data == "" || data === null) data = []
+            console.log(data);
+            data.put(name)
+            set(refUser, data);
+            res(true)
+        }).catch(err => rej(err.message))
+    })
+
+}
+
 export function getMesTaches(userId) {
     return new Promise((res, rej) => {
         const refDb = ref(database)

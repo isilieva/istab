@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet,
 Text, View, TextInput, TouchableOpacity,
 Keyboard, ScrollView } from 'react-native';
+import Card from 'react-native-draganddrop-board/src/components/Card/Card';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {NoteInputModal} from './Card'
 
 const List = (props) => {
     const [card, setCard ] = useState();
@@ -34,8 +36,23 @@ const List = (props) => {
               </TouchableOpacity>
         </KeyboardAvoidingView>
       </View>
+
+
     </View>
       
+    <View style={styles.tasksWrapper}>
+        <View style={styles.item}>
+          {/* This is where the boards will go! */}
+          {
+            cardItems.map((item) => {
+              return (
+                  <Card text={item} />
+              )
+            })
+          }
+        </View>
+      </View>
+
     </SafeAreaView>
   
   )
@@ -46,7 +63,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor:"#C6DD85",
-    borderRadius : 9
+    borderRadius : 9,
+    width:300
   },
   item: {
     backgroundColor: '#E6DFB0',
