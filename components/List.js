@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet,
 Text, View, TextInput, TouchableOpacity,
 Keyboard, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const List = (props) => {
     const [card, setCard ] = useState();
@@ -14,32 +15,41 @@ const List = (props) => {
       }
 
   return (
-    <View style={styles.item}>
-      <View style={styles.itemLeft}>
-        <Text style={styles.itemText}>{props.text}</Text>
-      </View>
-    <View style={styles.itemLeft}>
-    <KeyboardAvoidingView 
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTaskWrapper}
-      >
-       <TextInput style={styles.input} placeholder={'Add Task'} value={card} onChangeText={text => setCard(text)} />
-        <TouchableOpacity onPress={() => handleAddCard()}>
-            <View style={styles.addWrapper}>
-                <Text style={styles.addText}>+</Text>
-            </View>
-            </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </View>
-     
+    <SafeAreaView>
 
+    <View style={styles.contener}>
+        <View style={styles.itemLeft}>
+          <Text style={styles.itemText}>{props.text}</Text>
+        </View>
+      <View style={styles.itemLeft}>
+      <KeyboardAvoidingView 
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.writeTaskWrapper}
+        >
+        <TextInput style={styles.input} placeholder={'Add Task'} value={card} onChangeText={text => setCard(text)} />
+          <TouchableOpacity onPress={() => handleAddCard()}>
+              <View style={styles.addWrapper}>
+                  <Text style={styles.addText}>ajouter</Text>
+              </View>
+              </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </View>
     </View>
+      
+    </SafeAreaView>
+  
   )
 }
 
 const styles = StyleSheet.create({
+  contener: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor:"#C6DD85",
+    borderRadius : 9
+  },
   item: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#E6DFB0',
     padding: 15,
     borderRadius: 10,
     flexDirection: 'row',
@@ -50,23 +60,24 @@ const styles = StyleSheet.create({
   itemLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    borderColor: "#000",
   },
   square: {
     width: 24,
     height: 24,
-    backgroundColor: '#55BCF6',
     opacity: 0.4,
     borderRadius: 5,
     marginRight: 15,
+    borderColor: "#000",
   },
   itemText: {
     maxWidth: '100%',
+
   },
   circular: {
     width: 12,
     height: 12,
-    borderColor: '#55BCF6',
     borderWidth: 2,
     borderRadius: 5,
   },

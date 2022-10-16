@@ -15,11 +15,6 @@ export default function BoardView() {
     setList(null);
   }
 
-
- /**
-  *  redirect to board => on click redirect to the borad 
-  */
- 
   return (
     <View style={styles.container}>
         <ScrollView
@@ -32,13 +27,11 @@ export default function BoardView() {
       {/* My Boards */}
       <View style={styles.tasksWrapper}>
         <View style={styles.items}>
-          {/* This is where the tasks will go! */}
+          {/* This is where the boards will go! */}
           {
-            listItems.map((item, index) => {
+            listItems.map((item) => {
               return (
-               
-                  <List text={item} /> 
-
+                  <List text={item} />
               )
             })
           }

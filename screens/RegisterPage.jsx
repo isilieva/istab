@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { useContext, useState } from 'react';
-import { View, Alert, SafeAreaView } from 'react-native'
+import { View, Alert, Keyboard,SafeAreaView } from 'react-native'
 import { MyBout } from '../components/bout';
 import { MyInput } from '../components/input'
 import { IsTab } from '../context';
 import { styles } from '../styles';
+import { createUser } from '../api/auth';
 
 export function RegisterScreen() {
     const [login, setlogin] = useState("");
@@ -27,8 +28,11 @@ export function RegisterScreen() {
 
             <View style={styles.contConnect}>
                 <MyInput label={"login"} valeur={login} etat={setlogin} />
+                <></>
                 <MyInput label={"Mot de passe"} valeur={mdp} etat={setmdp} />
+                <></>
                 <MyInput label={"Confirmez"} valeur={mdp2} etat={setmdp2} />
+                <></>
                 <MyBout label="Valider" click={handleClick} />
 
             </View>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native'
 import { BoardsRouter } from './router/homepage';
+import { UserRouter } from './router/userRoot';
 import { IsTab } from './context'
 
 export default function App() {
@@ -9,7 +10,7 @@ export default function App() {
   return (
     <IsTab.Provider value={{ user, setuser, taches, settaches }} >
       <NavigationContainer>
-        {(user) ? <TodoRouter></TodoRouter> : <BoardsRouter></BoardsRouter>}
+        {(user) ? <BoardsRouter></BoardsRouter> : <UserRouter></UserRouter>}
 
       </NavigationContainer>
     </IsTab.Provider>

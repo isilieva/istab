@@ -2,22 +2,18 @@ import React, {useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet,
 Text, View, TextInput, TouchableOpacity,
 Keyboard, ScrollView } from 'react-native';
-import Task from '../components/Task';
+import Board from '../components/Board';
+import BoardView from './BoardScreen';
 
 export default function BoardPage({navigation}) {
-  const [task, setTask ] = useState();
-  const [taskItems, setTaskItems] = useState([]);
+  const [board, setBoard ] = useState();
+  const [boardItems, setBoardItems] = useState([]);
 
-  const handleAddTask = () => {
+  const handleAddBoard = () => {
     Keyboard.dismiss();
-    setTaskItems([...taskItems, task])
-    setTask(null);
+    setBoardItems([...boardItems, board])
+    setBoard(null);
   }
-
-
-  const openBoard = task => {
-    navigation.navigate('BoardDetail', { task }); //navigation to created board 
-};
 
  /**
   *  redirect to board => on click redirect to the borad 
@@ -37,12 +33,12 @@ export default function BoardPage({navigation}) {
       <View style={styles.tasksWrapper}>
         <Text style={styles.sectionTitle}>Boards</Text>
         <View style={styles.items}>
-          {/* This is where the tasks will go! */}
+          {/* This is where the boards will go! */}
           {
-            taskItems.map((item, index) => {
+            boardItems.map((item, index) => {
               return (
-                <TouchableOpacity key={index}  onPress={() => openBoard(index)}>
-                  <Task text={item} /> 
+                <TouchableOpacity key={index} onPress={() => navigation.navigate('BoardScreen')}>
+                  <Board text={item} /> 
                 </TouchableOpacity>
               )
             })
@@ -58,8 +54,8 @@ export default function BoardPage({navigation}) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
       >
-        <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
-        <TouchableOpacity onPress={() => handleAddTask()}>
+        <TextInput style={styles.input} placeholder={'Write a task'} value={board} onChangeText={text => setBoard(text)} />
+        <TouchableOpacity onPress={() => handleAddBoard()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>
           </View>
@@ -73,7 +69,7 @@ export default function BoardPage({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
+    backgroundColor: '#CCA253',
   },
   tasksWrapper: {
     paddingTop: 80,

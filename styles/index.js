@@ -3,42 +3,51 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
     contener: {
         flex: 1,
-        alignItems: "center"
+        alignItems: "center",
     },
     safe: {
         marginTop: 40,
-        flex: 1,
+        flex: 10,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        bordertRadius: 20 ,
     },
     input: {
-        height: 50,
-        borderColor: "#000",
-        borderWidth: 1,
-        width: 300
+        backgroundColor: "#D2D5BC",
+        alignItems: "center",
+        borderRadius: 8,
+        padding : 2,
+        width : 300,
+        height: 25,
+        space: 2
+        
     },
     labelInput: {
         fontSize: 20,
-        fontWeight: "bold"
+        fontWeight: "italic",
     },
     contConnect: {
-        height: 300
+        height: 200,
+        borderRadius: 8,
+        padding: 2
     },
     btn: {
         height: 20,
-        width: 300,
         backgroundColor: "#007bff",
         flex: 0.5,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        borderRadius: 25,
+        space: 10
     },
     tache: {
         width: 300,
         backgroundColor: "#007bff",
         margin: 10,
-        paddingVertical: 5
+        paddingVertical: 5,
+        bordertRadius: 20
     },
     tacheTxt: {
-        textAlign: "center"
+        textAlign: "center",
     }
 })
