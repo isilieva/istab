@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { useContext, useState } from 'react';
-import { View, Alert, Keyboard,SafeAreaView } from 'react-native'
+import { View, Image ,Alert, Keyboard,SafeAreaView } from 'react-native'
 import { MyBout } from '../components/bout';
 import { MyInput } from '../components/input'
 import { IsTab } from '../context';
 import { styles } from '../styles';
 import { createUser } from '../api/auth';
+import { HideInput } from '../components/hideInput';
 
 export function RegisterScreen() {
     const [login, setlogin] = useState("");
@@ -19,21 +20,25 @@ export function RegisterScreen() {
                 setuser(data);
             }).catch(err => Alert.alert(err))
         } else {
-            Alert.alert("Les mots de passe sont differents")
+            Alert.alert("The passwords don't match ! ")
         }
     }
     return (
         <SafeAreaView style={styles.safe}>
 
+        <Image
+            style={styles.image}
+            source={require('../assets/logo.png')}
+            />
 
             <View style={styles.contConnect}>
-                <MyInput label={"login"} valeur={login} etat={setlogin} />
+                <MyInput label={"Email"} valeur={login} etat={setlogin} />
                 <></>
-                <MyInput label={"Mot de passe"} valeur={mdp} etat={setmdp} />
+                <HideInput label={"Password"} valeur={mdp} secureTextEntry={true} etat={setmdp} />
                 <></>
-                <MyInput label={"Confirmez"} valeur={mdp2} etat={setmdp2} />
+                <HideInput label={"Confirm your password"} valeur={mdp2} secureTextEntry={true} etat={setmdp2} />
                 <></>
-                <MyBout label="Valider" click={handleClick} />
+                <MyBout label="Sign Up" click={handleClick} />
 
             </View>
             <StatusBar ></StatusBar>

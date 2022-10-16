@@ -1,127 +1,96 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  Modal,
-  Text,
-  StatusBar,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-import colors from '../misc/colors';
-import RoundIconBtn from './RoundIconBtn';
+import React, {useState} from 'react';
+import { KeyboardAvoidingView, StyleSheet,
+Text, View, TextInput, TouchableOpacity,
+Keyboard, ScrollView } from 'react-native';
 
-const NoteInputModal = ({ visible, onClose, onSubmit, note, isEdit }) => {
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const handleModalClose = () => {
-    Keyboard.dismiss();
-  };
 
-  useEffect(() => {
-    if (isEdit) {
-      setTitle(note.title);
-      setDesc(note.desc);
-    }
-  }, [isEdit]);
+const Card = (props) => {
+  const [card, setCard ] = useState();
+  const [cardItems, setCardItems] = useState([]);
 
-  const handleOnChangeText = (text, valueFor) => {
-    if (valueFor === 'title') setTitle(text);
-    if (valueFor === 'desc') setDesc(text);
-  };
+    const handleDeleteCard = (index) => {
+      Keyboard.dismiss();
+      setCards((items) => items.filter((_, i) => i !== index));
+    } 
 
-  const handleSubmit = () => {
-    if (!title.trim() && !desc.trim()) return onClose();
-
-    if (isEdit) {
-      onSubmit(title, desc, Date.now());
-    } else {
-      onSubmit(title, desc);
-      setTitle('');
-      setDesc('');
-    }
-    onClose();
-  };
-
-  const closeModal = () => {
-    if (!isEdit) {
-      setTitle('');
-      setDesc('');
-    }
-    onClose();
-  };
+    const handleUpdateCard = (index) => {
+      Keyboard.dismiss();
+      const newCards = card.filter((card) => index !==card.index)
+      setCard(newCards);
+    } 
 
   return (
-    <>
-      <StatusBar hidden />
-      <Modal visible={visible} animationType='fade'>
-        <View style={styles.container}>
-          <TextInput
-            value={title}
-            onChangeText={text => handleOnChangeText(text, 'title')}
-            placeholder='Title'
-            style={[styles.input, styles.title]}
-          />
-          <TextInput
-            value={desc}
-            multiline
-            placeholder='Note'
-            style={[styles.input, styles.desc]}
-            onChangeText={text => handleOnChangeText(text, 'desc')}
-          />
-          <View style={styles.btnContainer}>
-            <RoundIconBtn
-              size={15}
-              antIconName='check'
-              onPress={handleSubmit}
-            />
-            {title.trim() || desc.trim() ? (
-              <RoundIconBtn
-                size={15}
-                style={{ marginLeft: 15 }}
-                antIconName='close'
-                onPress={closeModal}
-              />
-            ) : null}
+
+      <View >
+          <View style={styles.contener}>
+            <Text style={styles.itemText}>{props.text}</Text>
           </View>
-        </View>
-        <TouchableWithoutFeedback onPress={handleModalClose}>
-          <View style={[styles.modalBG, StyleSheet.absoluteFillObject]} />
-        </TouchableWithoutFeedback>
-      </Modal>
-    </>
-  );
-};
+
+          <TouchableOpacity style={styles.btn} onPress={() => handleDeleteCard()}>
+            <View style={styles.deleteWrapper}>
+                  <Text style={styles.addText}>Delete</Text>
+              </View>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.btn} onPress={() => handleUpdateCard()}>
+              <View style={styles.updateWrapper}>
+                <Text style={styles.addText}>Update</Text>
+              </View>
+          </TouchableOpacity>
+      </View>   
+  )
+}
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 20,
-    paddingTop: 15,
+  contener: { // titre 
+    backgroundColor:"#cc7474",
+    width:'200%',
+    marginBottom: 20,
   },
-  input: {
-    borderBottomWidth: 2,
-    borderBottomColor: colors.PRIMARY,
-    fontSize: 20,
-    color: colors.DARK,
+  item: { // la place ou les cartes ce stoque 
+    backgroundColor: '#E6DFB0',
+    width:'10%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
-  title: {
-    height: 40,
-    marginBottom: 15,
-    fontWeight: 'bold',
+  tasksWrapper: { // l'eplacemets de tasks 
+    paddingTop: 20,
   },
-  desc: {
-    height: 100,
+  writeTaskWrapper: {
+    width: '50%',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderRadius : 25,
+    backgroundColor: '#DDD02E',
+    
   },
-  modalBG: {
-    flex: 1,
-    zIndex: -1,
+  deleteWrapper: {
+    width: 60,
+    height: 20,
+    backgroundColor: '#F72828',
+    borderRadius: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+    space: 10
   },
-  btnContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingVertical: 15,
+  updateWrapper: {
+    width: 60,
+    height: 20,
+    backgroundColor: '#6FE142',
+    borderRadius: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+    space: 10
   },
+  itemLeft : {
+    textAlign :'left',
+  },
+  addText: {},
 });
 
-export default NoteInputModal;
+export default Card;

@@ -6,12 +6,14 @@ import { MyInput } from '../components/input'
 import { IsTab } from '../context';
 import { styles } from '../styles/index';
 import { connectUser } from '../api/auth';
+import { HideInput } from '../components/hideInput';
 
 
 export function LoginScreen() {
   const [login, setlogin] = useState("");
   const [mdp, setmdp] = useState("");
   const { setuser } = useContext(IsTab);
+
   const handleClick = () => {
       Keyboard.dismiss()
       connectUser(login, mdp).then(data => {
@@ -19,6 +21,7 @@ export function LoginScreen() {
       }).catch(err => Alert.alert(err))
   }
   return (
+    <>
       <SafeAreaView style={styles.safe}>
         <View>
         <Image
@@ -28,15 +31,20 @@ export function LoginScreen() {
         </View>
           <View style={styles.contConnect}>
           
-              <MyInput label={"login"} valeur={login} etat={setlogin} />
+              <MyInput label={"Email"} valeur={login} etat={setlogin} />
 
-              <MyInput label={"Mot de passe"} valeur={mdp} etat={setmdp} />
+              <HideInput label={"Pasword"} valeur={mdp} secureTextEntry={true} etat={setmdp} />
 
-              <MyBout label="Valider" click={handleClick} />
+              <MyBout label="Sign In" click={handleClick} />
 
           </View>
           <StatusBar ></StatusBar>
       </SafeAreaView>
+
+        <View>
+
+        </View>
+    </>
 
   )
 }

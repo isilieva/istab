@@ -17,30 +17,30 @@ export default function BoardView() {
 
   return (
     <View style={styles.container}>
-        <ScrollView
-            contentContainerStyle={{
-          flexGrow: 1
-         }}
-            keyboardShouldPersistTaps='handled'
-         >
-
+      <TouchableOpacity style={styles.btn} onPress={() => handleDeleteBoard()}>
+                    <View style={styles.deleteWrapper}>
+                          <Text style={styles.addText}>Delete Board</Text>
+                      </View>
+                  </TouchableOpacity>
+              
       {/* My Boards */}
       <View style={styles.tasksWrapper}>
-        <View style={styles.items}>
+      <ScrollView horizontal='true'> 
+      <View style={styles.items}>
           {/* This is where the boards will go! */}
           {
-            listItems.map((item) => {
+            listItems.map((item,index) => {
               return (
+                <TouchableOpacity key={index}>
                   <List text={item} />
+                </TouchableOpacity>
               )
             })
           }
         </View>
+      </ScrollView> 
       </View>
         
-      </ScrollView>
-
-     
       {/* Write a task */}
       {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
       <KeyboardAvoidingView 
@@ -64,18 +64,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E8EAED',
   },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold'
+  tasksWrapper: { // the position of the lists 
+    paddingTop: 0,
   },
   items: {
     marginTop: 30,
   },
-  writeTaskWrapper: {
+  writeTaskWrapper: { // input of board screen
     position: 'absolute',
     bottom: 60,
     width: '100%',
@@ -83,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   },
-  input: {
+  input: { // input add list 
     paddingVertical: 15,
     paddingHorizontal: 15,
     backgroundColor: '#FFF',
@@ -92,15 +87,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 250,
   },
-  addWrapper: {
+  addWrapper: { // btn add list of board screen 
     width: 60,
     height: 60,
-    backgroundColor: '#FFF',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C0C0C0',
     borderWidth: 1,
+  },
+  deleteWrapper: {
+    backgroundColor: '#F72828',
+    borderRadius: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+    space: 10
   },
   addText: {},
 });

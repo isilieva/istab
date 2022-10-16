@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import { KeyboardAvoidingView, StyleSheet,
 Text, View, TextInput, TouchableOpacity,
 Keyboard, ScrollView } from 'react-native';
-import Card from 'react-native-draganddrop-board/src/components/Card/Card';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import {NoteInputModal} from './Card'
+import Card from './Card';
+
 
 const List = (props) => {
     const [card, setCard ] = useState();
@@ -17,88 +16,95 @@ const List = (props) => {
       }
 
   return (
-    <SafeAreaView>
-
+    <>
     <View style={styles.contener}>
         <View style={styles.itemLeft}>
           <Text style={styles.itemText}>{props.text}</Text>
         </View>
-      <View style={styles.itemLeft}>
-      <KeyboardAvoidingView 
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.writeTaskWrapper}
-        >
-        <TextInput style={styles.input} placeholder={'Add Task'} value={card} onChangeText={text => setCard(text)} />
-          <TouchableOpacity onPress={() => handleAddCard()}>
-              <View style={styles.addWrapper}>
-                  <Text style={styles.addText}>ajouter</Text>
-              </View>
-              </TouchableOpacity>
-        </KeyboardAvoidingView>
-      </View>
+    </View>
 
+    <View>
+          <View style={styles.itemLeft}>
+            <KeyboardAvoidingView 
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.writeTaskWrapper}
+              >
+              <TextInput style={styles.input} placeholder={'Add Task'} value={card} onChangeText={text => setCard(text)} />
+                <TouchableOpacity onPress={() => handleAddCard()}>
+                    <View style={styles.addWrapper}>
+                        <Text style={styles.addText}>+</Text>
+                    </View>
+                    </TouchableOpacity>
+              </KeyboardAvoidingView>
+          </View>
 
     </View>
       
     <View style={styles.tasksWrapper}>
+    <ScrollView horizontal='true'>
         <View style={styles.item}>
-          {/* This is where the boards will go! */}
+          {/* This is where the cards will go! */}
           {
-            cardItems.map((item) => {
+            cardItems.map((card,index) => {
               return (
-                  <Card text={item} />
+                <TouchableOpacity key={index}>
+                    
+                    <Card text={card} />
+  
+                </TouchableOpacity>
+                
               )
             })
           }
         </View>
+        </ScrollView>
       </View>
-
-    </SafeAreaView>
-  
+      </>
   )
 }
 
 const styles = StyleSheet.create({
-  contener: {
-    flex: 1,
+  contener: { // titre 
     alignItems: "center",
     backgroundColor:"#C6DD85",
-    borderRadius : 9,
-    width:300
+    width:'100%'
   },
-  item: {
+  item: { // la place ou les cartes ce stoque 
     backgroundColor: '#E6DFB0',
-    padding: 15,
-    borderRadius: 10,
+    width:'100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  itemLeft: {
-    flexDirection: 'row',
+  tasksWrapper: { // l'eplacemets de tasks 
+    paddingTop: 20,
+  },
+  writeTaskWrapper: { // add task
+    width: '50%',
+    flexDirection:'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    flexWrap: 'wrap',
-    borderColor: "#000",
+    borderRadius : 25,
+    backgroundColor: '#DDD02E',
+    
   },
-  square: {
-    width: 24,
-    height: 24,
-    opacity: 0.4,
-    borderRadius: 5,
-    marginRight: 15,
-    borderColor: "#000",
+  addWrapper: {
+    width: 20,
+    height: 20,
+    backgroundColor: '#72D59D',
+    borderRadius: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
   },
-  itemText: {
-    maxWidth: '100%',
+  itemLeft : {
+    textAlign :'left',
+  },
+  addText: {},
 
-  },
-  circular: {
-    width: 12,
-    height: 12,
-    borderWidth: 2,
-    borderRadius: 5,
-  },
+  
 });
 
 export default List;
