@@ -1,2 +1,1 @@
-# istab
-Trello Clone 
+# CHECK OUT THE MASTER  BRANCH !!!!!! 
